@@ -21,9 +21,10 @@
 - 使用可能な手続きを以下に示します。
   - `(make-lineseg segs [:comparator cmpr] [:add-func add] [:sub-func sub])`
     - 線分クラスのインスタンスを生成します。  
-      引数 segs には、線分 (start end) のリストを指定します。  
+      引数 segs には、線分 (start end) の集合 (リスト) を指定します。  
       ( 例. '((1 2) (3 4)) )  
-      end は、start 以上の値である必要があります。
+      ( リストのリストになることに注意 )  
+      また、end は、start 以上の値である必要があります。
 
     - 以下のキーワード引数は、線分の start と end に、  
       数値以外のデータを格納したい場合に使用できます。  
@@ -45,6 +46,10 @@
   - `(lineseg-length lineseg1)`
     - 線分の長さを取得します。  
       長さの計算には、make-lineseg で指定した 加算/減算関数 が使用されます。
+
+  - `(lineseg-segs lineseg1)`
+    - 線分の集合を取得します。  
+      ( リストのリストが返ります )
 
   - `(lineseg-intersect lineseg1 lineseg2 ...)`
     - 線分の積集合を取得します。  
@@ -70,10 +75,11 @@
 - OS
   - Windows 10 (version 21H2) (64bit)
 - 言語
-  - Gauche v0.9.11-p1
+  - Gauche v0.9.12
 
 ## 履歴
 - 2022-9-13  v1.00 (初版)
+- 2022-9-14  v1.01 lineseg-segs を追加
 
 
-(2022-9-13)
+(2022-9-14)

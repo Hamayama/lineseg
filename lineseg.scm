@@ -1,7 +1,7 @@
 ;; -*- coding: utf-8 -*-
 ;;
 ;; lineseg.scm
-;; 2022-9-13 v1.00
+;; 2022-9-14 v1.01
 ;;
 ;; ＜内容＞
 ;;   Gauche で、数直線上の線分を扱うためのモジュールです。
@@ -15,6 +15,7 @@
     make-lineseg
     lineseg-copy
     lineseg-length
+    lineseg-segs
     lineseg-intersect
     lineseg-union
     lineseg-subtract
@@ -84,6 +85,10 @@
          len1)))
    #f
    (slot-ref lineseg1 'segs)))
+
+;; 線分の集合を取得
+(define (lineseg-segs lineseg1)
+  (slot-ref lineseg1 'segs))
 
 
 ;; 線分の積集合を取得
