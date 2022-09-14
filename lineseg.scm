@@ -1,7 +1,7 @@
 ;; -*- coding: utf-8 -*-
 ;;
 ;; lineseg.scm
-;; 2022-9-14 v1.01
+;; 2022-9-14 v1.02
 ;;
 ;; ＜内容＞
 ;;   Gauche で、数直線上の線分を扱うためのモジュールです。
@@ -26,7 +26,7 @@
 (define-class <lineseg> ()
   ((segs       :init-value '()) ; 線分の集合 ((start1 end1) (start2 end2) ...)
    (comparator :init-value default-comparator) ; 比較器
-   (add-func   :init-value -)   ; 加算関数
+   (add-func   :init-value +)   ; 加算関数
    (sub-func   :init-value -)   ; 減算関数
    ))
 
@@ -72,8 +72,8 @@
 
 ;; 線分の長さを取得
 (define (lineseg-length lineseg1)
-  (define add-func  (slot-ref lineseg1 'add-func))
-  (define sub-func  (slot-ref lineseg1 'sub-func))
+  (define add-func (slot-ref lineseg1 'add-func))
+  (define sub-func (slot-ref lineseg1 'sub-func))
   ;; 個々の線分の長さを加算
   (fold
    (lambda (seg1 result-len)
