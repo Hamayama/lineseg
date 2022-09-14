@@ -43,7 +43,7 @@
 
   - `(lineseg-length lineseg1)`
     - 線分の長さを取得します。  
-      長さの計算には、make-lineseg で指定した 加算/減算関数 が使用されます。
+      ( 長さの計算には、make-lineseg で指定した 加算/減算関数 が使用されます )
 
   - `(lineseg-segs lineseg1)`
     - 線分の集合を、(リストのリストとして) 取得します。
