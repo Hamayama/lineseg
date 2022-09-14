@@ -6,6 +6,6 @@
 pause tarball ‚ğì¬‚µ‚Ü‚·B
 
 cd %~dp0
-tar -cvzf %NAME1%.tar.gz %NAME1%
+tar -cvzf %NAME1%.tgz %NAME1%
 
 pause Š®—¹‚µ‚Ü‚µ‚½B
