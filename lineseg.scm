@@ -1,7 +1,7 @@
 ;; -*- coding: utf-8 -*-
 ;;
 ;; lineseg.scm
-;; 2022-9-14 v1.02
+;; 2022-9-14 v1.03
 ;;
 ;; ＜内容＞
 ;;   Gauche で、数直線上の線分を扱うためのモジュールです。
@@ -183,9 +183,9 @@
                (when (>? cmpr seg1-end seg2-end)
                  (inc! index2)
                  (loop))
-               ;; 最後に残った部分があれば抽出
-               (when seg1 (push! segs1-temp seg1))
                )))
+         ;; 最後に残った部分があれば抽出
+         (when seg1 (push! segs1-temp seg1))
          segs1-temp)
        '()
        (slot-ref lineseg1 'segs)))

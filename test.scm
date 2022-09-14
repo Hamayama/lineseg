@@ -100,6 +100,9 @@
 (test* "lineseg-subtract-8"
        '((1 1))
        (segs (lineseg-subtract (mk '((1 1))) (mk '((2 2))))))
+(test* "lineseg-subtract-9"
+       '((3 4) (5 6))
+       (segs (lineseg-subtract (mk '((1 2) (3 4) (5 6))) (mk '((1 2))))))
 
 ;; summary
 (format (current-error-port) "~%~a" ((with-module gauche.test format-summary)))
