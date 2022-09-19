@@ -44,101 +44,110 @@
 (test* "lineseg-copy-2" '((1 2)) (segs lineseg-2))
 
 (test* "lineseg-intersect-1"
+       '((1 3) (4 6))
+       (segs (lineseg-intersect (mk '((1 3) (4 6))))))
+(test* "lineseg-intersect-2"
        '((2 3) (4 5))
        (segs (lineseg-intersect (mk '((1 3) (4 6))) (mk '((2 5))))))
-(test* "lineseg-intersect-2"
+(test* "lineseg-intersect-3"
        '((5 6))
        (segs (lineseg-intersect (mk '((1 3) (4 6))) (mk '((2 6))) (mk '((5 6))))))
-(test* "lineseg-intersect-3"
+(test* "lineseg-intersect-4"
        '()
        (segs (lineseg-intersect (mk '((3 6))) (mk '((7 8))))))
-(test* "lineseg-intersect-4"
+(test* "lineseg-intersect-5"
        '((5 6))
        (segs (lineseg-intersect (mk '((3 6))) (mk '((5 7))))))
-(test* "lineseg-intersect-5"
+(test* "lineseg-intersect-6"
        '((4 5))
        (segs (lineseg-intersect (mk '((3 6))) (mk '((4 5))))))
-(test* "lineseg-intersect-6"
+(test* "lineseg-intersect-7"
        '((3 4))
        (segs (lineseg-intersect (mk '((3 6))) (mk '((2 4))))))
-(test* "lineseg-intersect-7"
+(test* "lineseg-intersect-8"
        '()
        (segs (lineseg-intersect (mk '((3 6))) (mk '((1 2))))))
-(test* "lineseg-intersect-8"
+(test* "lineseg-intersect-9"
        '((3 6))
        (segs (lineseg-intersect (mk '((3 6))) (mk '((1 8))))))
-(test* "lineseg-intersect-9"
+(test* "lineseg-intersect-10"
        '()
        (segs (lineseg-intersect (mk '((1 1))) (mk '((2 2))))))
 
 (test* "lineseg-union-1"
+       '((1 2))
+       (segs (lineseg-union (mk '((1 2))))))
+(test* "lineseg-union-2"
        '((1 2) (10 15))
        (segs (lineseg-union (mk '((1 2))) (mk '((10 15))))))
-(test* "lineseg-union-2"
+(test* "lineseg-union-3"
        '((1 5) (10 15))
        (segs (lineseg-union (mk '((1 2))) (mk '((10 15))) (mk '((2 5))))))
-(test* "lineseg-union-3"
+(test* "lineseg-union-4"
        '((3 6) (7 8))
        (segs (lineseg-union (mk '((3 6))) (mk '((7 8))))))
-(test* "lineseg-union-4"
+(test* "lineseg-union-5"
        '((3 7))
        (segs (lineseg-union (mk '((3 6))) (mk '((5 7))))))
-(test* "lineseg-union-5"
+(test* "lineseg-union-6"
        '((3 6))
        (segs (lineseg-union (mk '((3 6))) (mk '((4 5))))))
-(test* "lineseg-union-6"
+(test* "lineseg-union-7"
        '((2 6))
        (segs (lineseg-union (mk '((3 6))) (mk '((2 4))))))
-(test* "lineseg-union-7"
+(test* "lineseg-union-8"
        '((1 2) (3 6))
        (segs (lineseg-union (mk '((3 6))) (mk '((1 2))))))
-(test* "lineseg-union-8"
+(test* "lineseg-union-9"
        '((1 8))
        (segs (lineseg-union (mk '((3 6))) (mk '((1 8))))))
-(test* "lineseg-union-9"
+(test* "lineseg-union-10"
        '((1 1) (2 2))
        (segs (lineseg-union (mk '((1 1))) (mk '((2 2))))))
 
 (test* "lineseg-subtract-1"
+       '((1 3) (4 7))
+       (segs (lineseg-subtract (mk '((1 3) (4 7))))))
+(test* "lineseg-subtract-2"
        '((1 2) (5 7))
        (segs (lineseg-subtract (mk '((1 3) (4 7))) (mk '((2 5))))))
-(test* "lineseg-subtract-2"
+(test* "lineseg-subtract-3"
        '((1 2) (5 6))
        (segs (lineseg-subtract (mk '((1 3) (4 7))) (mk '((2 5))) (mk '((6 7))))))
-(test* "lineseg-subtract-3"
+(test* "lineseg-subtract-4"
        '((3 6))
        (segs (lineseg-subtract (mk '((3 6))) (mk '((7 8))))))
-(test* "lineseg-subtract-4"
+(test* "lineseg-subtract-5"
        '((3 5))
        (segs (lineseg-subtract (mk '((3 6))) (mk '((5 7))))))
-(test* "lineseg-subtract-5"
+(test* "lineseg-subtract-6"
        '((3 4) (5 6))
        (segs (lineseg-subtract (mk '((3 6))) (mk '((4 5))))))
-(test* "lineseg-subtract-6"
+(test* "lineseg-subtract-7"
        '((4 6))
        (segs (lineseg-subtract (mk '((3 6))) (mk '((2 4))))))
-(test* "lineseg-subtract-7"
+(test* "lineseg-subtract-8"
        '((3 6))
        (segs (lineseg-subtract (mk '((3 6))) (mk '((1 2))))))
-(test* "lineseg-subtract-8"
+(test* "lineseg-subtract-9"
        '()
        (segs (lineseg-subtract (mk '((3 6))) (mk '((1 8))))))
-(test* "lineseg-subtract-9"
+(test* "lineseg-subtract-10"
        '((1 1))
        (segs (lineseg-subtract (mk '((1 1))) (mk '((2 2))))))
-(test* "lineseg-subtract-10"
+(test* "lineseg-subtract-11"
        '((3 4) (5 6))
        (segs (lineseg-subtract (mk '((1 2) (3 4) (5 6))) (mk '((1 2))))))
-(test* "lineseg-subtract-11"
+(test* "lineseg-subtract-12"
        '((1 2) (3 5) (6 10))
        (segs (lineseg-subtract (mk '((1 10))) (mk '((2 3) (5 6))))))
-(test* "lineseg-subtract-12"
+(test* "lineseg-subtract-13"
        '((1 2) (3 5) (6 7) (8 10))
        (segs (lineseg-subtract (mk '((1 10))) (mk '((2 3) (5 6) (7 8))))))
-(test* "lineseg-subtract-13"
+(test* "lineseg-subtract-14"
        '((1 2) (7 8))
        (segs (lineseg-subtract (mk '((1 3) (6 8))) (mk '((2 7))))))
-(test* "lineseg-subtract-14"
+(test* "lineseg-subtract-15"
        '((1 2) (7 8))
        (segs (lineseg-subtract (mk '((1 3) (6 8))) (mk '((2 4) (5 7))))))
 

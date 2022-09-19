@@ -4,66 +4,16 @@
 
 (add-load-path "." :relative)
 (use srfi-19)
+(use datecal)
 (use lineseg)
 
-;; ===== 日時関係のツール類 =====
+;; 日時の範囲を設定して、勤務時間を計算するサンプル
 
-;; 日時の範囲を作成する
 (define (make-date-lineseg segs)
   (make-lineseg segs
-                :comparator date-comparator
+                :comparator date-calc-comparator
                 :add-func   time-add
                 :sub-func   date-diff))
-
-;; 日時の比較器
-(define date-comparator
-  (make-comparator
-   date?
-   (lambda (date1 date2) (time=? (date->time-utc date1) (date->time-utc date2)))
-   (lambda (date1 date2) (time<? (date->time-utc date1) (date->time-utc date2)))
-   default-hash))
-
-;; 日時を減算して時間を求める
-(define (date-diff :rest dates)
-  (if (null? dates)
-    #f
-    (fold (lambda (date1 result-time)
-            (time-difference result-time (date->time-utc date1)))
-          (date->time-utc (car dates))
-          (cdr dates))))
-
-;; 日時に時間を加算する
-;; (加算する時間のタイプは、time-duration である必要がある)
-(define (date-add-time date1 time1)
-  (time-utc->date (add-duration (date->time-utc date1) time1)
-                  (date-zone-offset date1)))
-
-;; 日時から時間を減算する
-;; (減算する時間のタイプは、time-duration である必要がある)
-(define (date-sub-time date1 time1)
-  (time-utc->date (subtract-duration (date->time-utc date1) time1)
-                  (date-zone-offset date1)))
-
-;; 時間を加算する
-(define (time-add :rest times)
-  (if (null? times)
-    #f
-    (fold (lambda (time1 result-time)
-            (add-duration result-time time1))
-          (car times)
-          (cdr times))))
-
-;; 時間を減算する
-(define (time-sub :rest times)
-  (if (null? times)
-    #f
-    (fold (lambda (time1 result-time)
-            (subtract-duration result-time time1))
-          (car times)
-          (cdr times))))
-
-
-;; ===== 使用例 =====
 
 (define *date-format* "~Y-~m-~dT~H:~M:~S~z")
 (define *hour-sec*    3600)
@@ -78,7 +28,7 @@
 ;; 休憩
 (define rest-start  (string->date "2000-01-01T17:00:00+0900" *date-format*))
 (define rest-end    (string->date "2000-01-01T17:15:00+0900" *date-format*))
-;; 実時間
+;; 出勤時間
 (define work-start  (string->date "2000-01-01T08:00:00+0900" *date-format*))
 (define work-end    (string->date "2000-01-01T18:30:00+0900" *date-format*))
 
@@ -94,14 +44,14 @@
 (print "rest-time  = " (time-to-hour (lineseg-length rest-seg))  " hr")
 (print)
 
-;; 実時間、定時内時間、定時外時間の長さを計算
+;; 実勤務時間、定時内勤務時間、時間外勤務時間の長さを計算
 (define all-work-time     (lineseg-length (lineseg-subtract work-seg lunch-seg rest-seg)))
 (define regular-work-time (lineseg-length (lineseg-subtract (lineseg-intersect work-seg day-seg)
                                                             lunch-seg
                                                             rest-seg)))
 (define extra-work-time   (time-sub all-work-time regular-work-time))
 
-;; 実時間、定時内時間、定時外時間の長さを表示
+;; 実勤務時間、定時内勤務時間、時間外勤務時間の長さを表示
 (print "all-work-time     = " (time-to-hour all-work-time)     " hr")
 (print "regular-work-time = " (time-to-hour regular-work-time) " hr")
 (print "extra-work-time   = " (time-to-hour extra-work-time)   " hr")

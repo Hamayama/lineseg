@@ -1,7 +1,7 @@
 ;; -*- coding: utf-8 -*-
 ;;
 ;; lineseg.scm
-;; 2022-9-19 v1.04
+;; 2022-9-19 v1.05
 ;;
 ;; ＜内容＞
 ;;   Gauche で、数直線上の線分を扱うためのモジュールです。
@@ -55,6 +55,7 @@
 ;; 線分のコピー
 (define (lineseg-copy lineseg1)
   (define lineseg2 (make <lineseg>))
+  (define segs1    (slot-ref lineseg1 'segs))
   (define segs2
     ;; 個々の線分をコピーして追加
     (fold
@@ -62,7 +63,7 @@
        (push! segs2-temp (list-copy seg1))
        segs2-temp)
      '()
-     (slot-ref lineseg1 'segs)))
+     segs1))
   ;; データを設定
   (slot-set! lineseg2 'segs       (reverse segs2))
   (slot-set! lineseg2 'comparator (slot-ref lineseg1 'comparator))
@@ -74,6 +75,7 @@
 (define (lineseg-length lineseg1)
   (define add-func (slot-ref lineseg1 'add-func))
   (define sub-func (slot-ref lineseg1 'sub-func))
+  (define segs1    (slot-ref lineseg1 'segs))
   ;; 個々の線分の長さを加算
   (fold
    (lambda (seg1 result-len)
@@ -84,7 +86,7 @@
          (add-func result-len len1)
          len1)))
    #f
-   (slot-ref lineseg1 'segs)))
+   segs1))
 
 ;; 線分の集合を取得
 (define (lineseg-segs lineseg1)
@@ -140,13 +142,10 @@
   (if (null? lineseg-list)
     #f
     (let ((lineseg1 (lineseg-copy (car lineseg-list))))
-      ;; リストが 1 個だけなら、線分は空にする
-      (if (null? (cdr lineseg-list))
-        (slot-set! lineseg1 'segs '())
-        (for-each
-         (lambda (lineseg2)
-           (%intersect! lineseg1 lineseg2))
-         (cdr lineseg-list)))
+      (for-each
+       (lambda (lineseg2)
+         (%intersect! lineseg1 lineseg2))
+       (cdr lineseg-list))
       lineseg1)))
 
 
@@ -220,10 +219,10 @@
   (define segs1        (slot-ref lineseg1 'segs))
   (define segs1-sorted (sort segs1 cmpr car)) ; 始点でソートする
   (define segs1-new
-    (fold
-     (lambda (seg1 segs1-temp)
-       (if (null? segs1-temp)
-         (push! segs1-temp seg1)
+    (if (null? segs1-sorted)
+      '()
+      (fold
+       (lambda (seg1 segs1-temp)
          (let* ((last-seg   (car segs1-temp))
                 (seg1-start (list-ref seg1     0))
                 (seg1-end   (list-ref seg1     1))
@@ -235,10 +234,10 @@
              (set-car! segs1-temp
                        (list (if (<=? cmpr seg1-start last-start) seg1-start last-start)
                              (if (>=? cmpr seg1-end   last-end)   seg1-end   last-end)))
-             (push! segs1-temp seg1))))
-       segs1-temp)
-     '()
-     segs1-sorted))
+             (push! segs1-temp seg1)))
+         segs1-temp)
+       (take segs1-sorted 1)
+       (cdr segs1-sorted))))
   (slot-set! lineseg1 'segs (reverse segs1-new))
   lineseg1)
 
