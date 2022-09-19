@@ -1,7 +1,7 @@
 ;; -*- coding: utf-8 -*-
 ;;
 ;; lineseg.scm
-;; 2022-9-14 v1.03
+;; 2022-9-19 v1.04
 ;;
 ;; ＜内容＞
 ;;   Gauche で、数直線上の線分を扱うためのモジュールです。
@@ -10,12 +10,12 @@
 ;;   https://github.com/Hamayama/lineseg
 ;;
 (define-module lineseg
-  (use gauche.collection)
   (export
     make-lineseg
     lineseg-copy
     lineseg-length
     lineseg-segs
+    lineseg-contains?
     lineseg-intersect
     lineseg-union
     lineseg-subtract
@@ -89,6 +89,18 @@
 ;; 線分の集合を取得
 (define (lineseg-segs lineseg1)
   (slot-ref lineseg1 'segs))
+
+;; 線分に値が含まれるか?
+(define (lineseg-contains? lineseg1 val)
+  (define cmpr  (slot-ref lineseg1 'comparator))
+  (define segs1 (slot-ref lineseg1 'segs))
+  (any
+   (lambda (seg1)
+     (let ((start (list-ref seg1 0))
+           (end   (list-ref seg1 1)))
+       (and (>=? cmpr val start)
+            (<=? cmpr val end))))
+   segs1))
 
 
 ;; 線分の積集合を取得

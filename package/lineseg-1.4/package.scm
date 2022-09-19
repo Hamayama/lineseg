@@ -4,7 +4,7 @@
 
 (define-gauche-package "lineseg"
   ;;
-  :version "1.3"
+  :version "1.4"
 
   ;; Description of the package.  The first line is used as a short
   ;; summary.
