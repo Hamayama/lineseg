@@ -66,9 +66,11 @@
 
 
 ## 使用例
-1. sample-date-time.scm は、線分の start と end に、  
+1. サンプルプログラムの [sample-date-time.scm](https://github.com/Hamayama/lineseg/blob/main/sample-date-time.scm)
+   は、線分の start と end に、  
    日時 (`<date>` クラス) のインスタンスを格納した例になっています。  
-   日時の範囲を設定して、各種勤務時間を計算しています。
+   日時の範囲を設定して、各種勤務時間を計算しています。  
+   (このサンプルプログラムは、[datecal](https://github.com/Hamayama/datecal) モジュールも使用しています)
 
 
 ## 環境等
